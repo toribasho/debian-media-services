@@ -1,0 +1,60 @@
+---
+
+- hosts: all
+  remote_user: root
+
+  tasks:
+
+    - name: Install docker pre-reqisites
+      tags: docker, install
+      package:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg2
+          - software-properties-common
+          - virtualenv
+        state: latest
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      tags: docker, install
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      tags: docker, install
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present        
+
+    - name: Install docker engine
+      package:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose          
+
+    - name: create user deb-media
+      user:
+        name: deb-media
+        groups: 
+          - root
+          - docker
+        shell: /usr/bin/bash
+
+    - name: add ssh key for deb-media
+      authorized_key:
+        user: deb-media
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMBiGEixtJdjY+QFgHU2V+cJQt5b2wezH7m+pG2vyHIw ansible"
+
+    - name: add sudoers file for deb-media
+      copy:
+        src: files/sudoers_deb-media
+        dest: /etc/sudoers.d/deb-media
+        owner: root
+        group: root
+        mode: 0440
