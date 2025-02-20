@@ -8,7 +8,7 @@
     container_name: "{{ jelly_container_name }}"
     container_volumes: "{{ jelly_volumes }}"
     container_ports: "{{ jelly_ports }}"
-    network_name: media-net
+    network_name: "{{ jelly_network }}"
   roles:
     - containers
     - network
@@ -23,9 +23,12 @@
     container_volumes: "{{ prometheus_volumes }}"
     container_ports: "{{ prometheus_ports }}"
     volume_name: "{{ prometheus_create_volumes }}"
-    network_name: media-net
+    network_name: "{{ prometheus_network }}"
+    file_destinations: "{{ prometheus_files }}"
   roles:
     - volumes
+    - role: files
+      become: true
     - containers
     - network
 
@@ -39,7 +42,7 @@
     container_volumes: "{{ grafana_volumes }}"
     container_ports: "{{ grafana_ports }}"
     volume_name: "{{ grafana_create_volumes }}"
-    network_name: media-net
+    network_name: "{{ grafana_network }}"
   roles:
     - volumes
     - containers
@@ -57,7 +60,7 @@
       - 8181:8181
       - 80:8080
       - 443:4443
-    network_name: media-net
+    network_name: "{{ npm_network }}"
     volume_name: npm-data
   roles:
     - volumes
