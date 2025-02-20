@@ -4,6 +4,7 @@
     name: "{{ image }}"
     tag: "{{ image_tag }}"
     source: pull
+    state: present
 
 - name: "create {{ container_name }} container"
   ansible.builtin.docker_container:
@@ -18,3 +19,4 @@
     networks:
       - name: "{{ network_name }}"
     restart_policy: "unless-stopped"
+    state: started
