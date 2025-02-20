@@ -1,0 +1,4 @@
+---
+- name: "Create {{ volume_name }}"
+  community.docker.docker_volume:
+    name: "{{ volume_name }}"

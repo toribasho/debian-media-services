@@ -1,0 +1,20 @@
+---
+- name: "pull {{ image }}:{{ image_tag }}"
+  ansible.builtin.docker_image:
+    name: "{{ image }}"
+    tag: "{{ image_tag }}"
+    source: pull
+
+- name: "create {{ container_name }} container"
+  ansible.builtin.docker_container:
+    name: "{{ container_name }}"
+    image: "{{ image }}:{{ image_tag }}"
+    command: "{{ container_command }}"
+    detach: yes
+    env: "{{ container_env }}"
+    ports: "{{ container_ports }}"
+    volumes: "{{ container_volumes }}"
+    working_dir: "{{ container_workdir }}"
+    networks:
+      - name: "{{ network_name }}"
+    restart_policy: "unless-stopped"
