@@ -1,1 +1,1 @@
-ansible-playbook -i docker-vm network.yml docker-images.yml -u deb-media
+ansible-playbook -i docker-vm docker-images.yml -u deb-media
