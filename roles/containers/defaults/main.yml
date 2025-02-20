@@ -5,3 +5,4 @@ container_host_group:
 container_ports: []
 container_volumes: []
 container_workdir:
+file_destinations: {}

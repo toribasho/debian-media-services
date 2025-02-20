@@ -12,6 +12,7 @@ jelly_env:
   - PUID=1000
   - PGID=1000
   - TZ=Etc/UTC
+jelly_network: media-net
 
 prometheus_image: docker.io/prom/prometheus
 prometheus_version: latest
@@ -20,7 +21,10 @@ prometheus_create_volumes: prometheus-data
 prometheus_volumes: 
   - /mnt/conf/prometheus:/etc/prometheus
   - prometheus-data:/prometheus
+prometheus_files:
+  - { src: "prometheus-basic.yml", dst: "/mnt/conf/prometheus/prometheus.yml" }
 prometheus_ports: 9090:9090
+prometheus_network: media-net
 
 grafana_image: docker.io/grafana/grafana
 grafana_version: latest
@@ -29,3 +33,7 @@ grafana_create_volumes: grafana-data
 grafana_volumes: 
   - grafana-data:/var/lib/grafana
 grafana_ports: 3000:3000
+grafana_network: media-net
+
+
+npm_network: media-net
