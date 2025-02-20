@@ -4,7 +4,7 @@
     name: "{{ network_name }}"
     driver: bridge
 
-- name: Add a container to a network, leaving existing containers connected
+- name: "Add a container to a network: {{ network_name }}"
   community.docker.docker_network:
     name: "{{ network_name }}"
     connected:
