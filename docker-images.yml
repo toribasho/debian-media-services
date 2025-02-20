@@ -1,0 +1,59 @@
+---
+- name: Installing Jellyfin image
+  hosts: DockerVm
+  tags: media
+  vars:
+    image: "{{ jelly_image }}"
+    image_tag: "{{ jelly_version }}"
+    container_name: "{{ jelly_container_name }}"
+    container_volumes: "{{ jelly_volumes }}"
+    container_ports: "{{ jelly_ports }}"
+  roles:
+    - containers
+
+- name: Installing Prometheus image
+  hosts: DockerVm
+  tags: monitoring
+  vars:
+    image: "{{ prometheus_image }}"
+    image_tag: "{{ prometheus_version }}"
+    container_name: "{{ prometheus_container_name }}"
+    container_volumes: "{{ prometheus_volumes }}"
+    container_ports: "{{ prometheus_ports }}"
+    volume_name: "{{ prometheus_create_volumes }}"
+  roles:
+    - volumes
+    - containers
+
+- name: Installing Grafana image
+  hosts: DockerVm
+  tags: monitoring
+  vars:
+    image: "{{ grafana_image }}"
+    image_tag: "{{ grafana_version }}"
+    container_name: "{{ grafana_container_name }}"
+    container_volumes: "{{ grafana_volumes }}"
+    container_ports: "{{ grafana_ports }}"
+    volume_name: "{{ grafana_create_volumes }}"
+  roles:
+    - volumes
+    - containers    
+
+- name: Installing NPM image
+  hosts: DockerVm
+  tags: nginx
+  vars:
+    image: jlesage/nginx-proxy-manager
+    image_tag: latest
+    container_name: npm-deb
+    container_volumes: npm-data:/config:rw
+    container_ports: 
+      - 8181:8181
+      - 80:8080
+      - 443:4443
+    volume_name: npm-data
+  roles:
+    - volumes
+    - containers        
+
+
