@@ -1,0 +1,6 @@
+---
+- name: Copy template files for "{{ container_name }}"
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dst }}"
+  with_items: "{{ file_destinations }}"
