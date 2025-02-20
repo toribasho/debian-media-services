@@ -1,0 +1,31 @@
+---
+jelly_image: lscr.io/linuxserver/jellyfin
+jelly_version: latest
+jelly_container_name: jelly-media
+jelly_volumes: 
+  - /mnt/conf/jelly:/config
+  - /mnt/data/jelly:/cache
+  - /mnt/media/movies:/data/movies
+  - /mnt/media/tv:/data/tv
+jelly_ports: 8096:8096
+jelly_env:
+  - PUID=1000
+  - PGID=1000
+  - TZ=Etc/UTC
+
+prometheus_image: docker.io/prom/prometheus
+prometheus_version: latest
+prometheus_container_name: prometheus
+prometheus_create_volumes: prometheus-data
+prometheus_volumes: 
+  - /mnt/conf/prometheus:/etc/prometheus
+  - prometheus-data:/prometheus
+prometheus_ports: 9090:9090
+
+grafana_image: docker.io/grafana/grafana
+grafana_version: latest
+grafana_container_name: grafana
+grafana_create_volumes: grafana-data
+grafana_volumes: 
+  - grafana-data:/var/lib/grafana
+grafana_ports: 3000:3000
