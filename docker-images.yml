@@ -8,8 +8,10 @@
     container_name: "{{ jelly_container_name }}"
     container_volumes: "{{ jelly_volumes }}"
     container_ports: "{{ jelly_ports }}"
+    network_name: media-net
   roles:
     - containers
+    - network
 
 - name: Installing Prometheus image
   hosts: DockerVm
@@ -21,9 +23,11 @@
     container_volumes: "{{ prometheus_volumes }}"
     container_ports: "{{ prometheus_ports }}"
     volume_name: "{{ prometheus_create_volumes }}"
+    network_name: media-net
   roles:
     - volumes
     - containers
+    - network
 
 - name: Installing Grafana image
   hosts: DockerVm
@@ -35,9 +39,11 @@
     container_volumes: "{{ grafana_volumes }}"
     container_ports: "{{ grafana_ports }}"
     volume_name: "{{ grafana_create_volumes }}"
+    network_name: media-net
   roles:
     - volumes
-    - containers    
+    - containers
+    - network
 
 - name: Installing NPM image
   hosts: DockerVm
@@ -51,9 +57,11 @@
       - 8181:8181
       - 80:8080
       - 443:4443
+    network_name: media-net
     volume_name: npm-data
   roles:
     - volumes
-    - containers        
+    - containers
+    - network
 
 
