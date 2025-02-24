@@ -50,6 +50,8 @@ cadvisor_volumes:
       - /dev/disk/:/dev/disk:ro
 cadvisor_ports: 8080:8080
 cadvisor_network: monitoring-net
+cadvisor_command: 
+  - --disable_metrics=disk,referenced_memory
 
 nodexxporter_image: prom/node-exporter
 nodexxporter_version: latest
@@ -65,3 +67,4 @@ nodexxporter_volumes:
       - /:/rootfs:ro
 nodexxporter_ports: 9100:9100
 nodexxporter_network: monitoring-net
+nodexxporter_priveleged_run: true
