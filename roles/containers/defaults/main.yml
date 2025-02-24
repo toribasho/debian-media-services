@@ -1,8 +1,9 @@
 ---
 container_command:
 container_env: {}
-container_host_group:
 container_ports: []
 container_volumes: []
 container_workdir:
 file_destinations: {}
+container_devices: []
+container_priveleged_run: false
