@@ -1,0 +1,64 @@
+---
+- name: Installing Cadvisor image
+  hosts: DockerVm
+  tags: monitoring
+  vars:
+    image: "{{ cadvisor_image }}"
+    image_tag: "{{ cadvisor_version }}"
+    container_name: "{{ cadvisor_container_name }}"
+    container_volumes: "{{ cadvisor_volumes }}"
+    container_ports: "{{ cadvisor_ports }}"
+    network_name: "{{ cadvisor_network }}"
+  roles:
+    - network
+    - containers
+    
+
+- name: Installing Node-exporter image
+  hosts: DockerVm
+  tags: monitoring
+  vars:
+    image: "{{ nodexxporter_image }}"
+    image_tag: "{{ nodexxporter_version }}"
+    container_name: "{{ nodexxporter_container_name }}"
+    container_volumes: "{{ nodexxporter_volumes }}"
+    container_ports: "{{ nodexxporter_ports }}"
+    network_name: "{{ nodexxporter_network }}"
+  roles:
+    - network
+    - containers
+    
+    - name: Installing Prometheus image
+  hosts: DockerVm
+  tags: monitoring
+  vars:
+    image: "{{ prometheus_image }}"
+    image_tag: "{{ prometheus_version }}"
+    container_name: "{{ prometheus_container_name }}"
+    container_volumes: "{{ prometheus_volumes }}"
+    container_ports: "{{ prometheus_ports }}"
+    volume_name: "{{ prometheus_create_volumes }}"
+    network_name: "{{ prometheus_network }}"
+    file_destinations: "{{ prometheus_files }}"
+  roles:
+    - volumes
+    - role: files
+      become: true
+    - network
+    - containers
+
+- name: Installing Grafana image
+  hosts: DockerVm
+  tags: monitoring
+  vars:
+    image: "{{ grafana_image }}"
+    image_tag: "{{ grafana_version }}"
+    container_name: "{{ grafana_container_name }}"
+    container_volumes: "{{ grafana_volumes }}"
+    container_ports: "{{ grafana_ports }}"
+    volume_name: "{{ grafana_create_volumes }}"
+    network_name: "{{ grafana_network }}"
+  roles:
+    - volumes
+    - network
+    - containers
