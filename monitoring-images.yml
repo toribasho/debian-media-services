@@ -1,7 +1,7 @@
 ---
 - name: Installing Cadvisor image
   hosts: DockerVm
-  tags: monitoring
+  tags: monitoring, cadvisor
   vars:
     image: "{{ cadvisor_image }}"
     image_tag: "{{ cadvisor_version }}"
@@ -9,14 +9,14 @@
     container_volumes: "{{ cadvisor_volumes }}"
     container_ports: "{{ cadvisor_ports }}"
     network_name: "{{ cadvisor_network }}"
+    container_command: "{{ cadvisor_command }}"
   roles:
     - network
     - containers
-    
 
 - name: Installing Node-exporter image
   hosts: DockerVm
-  tags: monitoring
+  tags: monitoring, node-exporter
   vars:
     image: "{{ nodexxporter_image }}"
     image_tag: "{{ nodexxporter_version }}"
@@ -24,13 +24,15 @@
     container_volumes: "{{ nodexxporter_volumes }}"
     container_ports: "{{ nodexxporter_ports }}"
     network_name: "{{ nodexxporter_network }}"
+    container_command: "{{ nodexxporter_command }}"
+    container_priveleged_run: "{{ nodexxporter_priveleged_run }}"
   roles:
     - network
     - containers
     
-    - name: Installing Prometheus image
+- name: Installing Prometheus image
   hosts: DockerVm
-  tags: monitoring
+  tags: monitoring, prometheus
   vars:
     image: "{{ prometheus_image }}"
     image_tag: "{{ prometheus_version }}"
@@ -46,10 +48,16 @@
       become: true
     - network
     - containers
+  handlers:
+  - name: Restart prometheus
+    ansible.builtin.docker_container:
+      name: prometheus
+      state: started
+      restart: true
 
 - name: Installing Grafana image
   hosts: DockerVm
-  tags: monitoring
+  tags: monitoring, grafana
   vars:
     image: "{{ grafana_image }}"
     image_tag: "{{ grafana_version }}"
