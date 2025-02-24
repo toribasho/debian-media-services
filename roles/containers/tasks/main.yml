@@ -16,6 +16,8 @@
     ports: "{{ container_ports }}"
     volumes: "{{ container_volumes }}"
     working_dir: "{{ container_workdir }}"
+    devices: "{{ container_devices }}"
+    privileged: "{{ container_priveleged_run }}"
     networks:
       - name: "{{ network_name }}"
     restart_policy: "unless-stopped"
