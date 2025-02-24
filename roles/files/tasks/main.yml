@@ -4,3 +4,4 @@
     src: "{{ item.src }}"
     dest: "{{ item.dst }}"
   with_items: "{{ file_destinations }}"
+  notify: Restart {{ container_name }}
