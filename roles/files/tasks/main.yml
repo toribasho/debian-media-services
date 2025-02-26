@@ -1,4 +1,11 @@
 ---
+- name: Create destination directory if it does not exist
+  file:
+    path: "{{ item.dst | dirname }}"
+    state: directory
+    mode: '0755'
+  with_items: "{{ file_destinations }}"
+
 - name: Copy template files for "{{ container_name }}"
   copy:
     src: "{{ item.src }}"
